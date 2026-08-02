@@ -695,7 +695,10 @@ do
   --  See `:help lsp-config` for information about keys and how to configure
   ---@type table<string, vim.lsp.Config>
   local servers = {
-    clangd = {},
+    clangd = {
+      cmd = {'clangd', '--query-driver=C:/msys64/mingw64/bin/gcc.exe',
+      },
+    },
     -- gopls = {},
     pyright = {},
     -- rust_analyzer = {},
