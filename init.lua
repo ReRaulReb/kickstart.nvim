@@ -696,9 +696,7 @@ do
   ---@type table<string, vim.lsp.Config>
   local servers = {
     clangd = {
-      cmd = {'clangd', '--query-driver=C:/msys64/mingw64/bin/gcc.exe',
-      },
-    },
+          },
     -- gopls = {},
     pyright = {},
     -- rust_analyzer = {},
