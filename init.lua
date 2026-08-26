@@ -91,6 +91,7 @@ P.S. You can delete this when you're done too. It's your config now! :)
 do
   -- Enable faster startup by caching compiled Lua modules
   vim.loader.enable()
+  vim.env.CC = 'gcc'
 
   -- Set <space> as the leader key
   -- See `:help mapleader`
@@ -239,7 +240,8 @@ do
   -- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
   -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
   -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
-
+  vim.keymap.set('i', 'jj', '<Esc>', { noremap = false } )
+  vim.keymap.set('i', 'jk', '<Esc>', { noremap = false } )
   -- [[ Basic Autocommands ]]
   --  See `:help lua-guide-autocommands`
 
@@ -616,7 +618,13 @@ do
   -- and elegantly composed help section, `:help lsp-vs-treesitter`
 
   -- Useful status updates for LSP.
-  vim.pack.add { gh 'j-hui/fidget.nvim' }
+  vim.pack.add { gh 'j-hui/fidget.nvim',
+    gh 'neovim/nvim-lspconfig',
+  gh 'mason-org/mason.nvim',
+  gh 'mason-org/mason-lspconfig.nvim',
+  gh 'WhoIsSethDaniel/mason-tool-installer.nvim',
+  gh 'mfussenegger/nvim-jdtls',
+  }
   require('fidget').setup {}
 
   --  This function gets run when an LSP attaches to a particular buffer.
@@ -763,6 +771,9 @@ do
   local ensure_installed = vim.tbl_keys(servers or {})
   vim.list_extend(ensure_installed, {
     -- You can add other tools here that you want Mason to install
+    'jdtls',
+    'java-debug-adapter',
+    'java-test',
   })
 
   require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -907,7 +918,7 @@ do
   vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
   -- Ensure basic parsers are installed
-  local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+  local parsers = { 'bash', 'java', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
   require('nvim-treesitter').install(parsers)
 
   ---@param buf integer
