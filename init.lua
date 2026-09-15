@@ -747,6 +747,17 @@ do
         },
       },
     },
+
+    html = {},
+    cssls = {},
+    jsonls = {},
+    tailwindcss = {},
+    ts_ls = {},
+    eslint = {
+      settings = {
+        workingDirectories = { mode = 'auto'},
+      },
+    },
   }
 
   vim.pack.add {
@@ -777,6 +788,8 @@ do
     'jdtls',
     'java-debug-adapter',
     'java-test',
+    'prettierd',
+    'prettier',
   })
 
   require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -793,6 +806,9 @@ end
 -- ============================================================
 do
   -- [[ Formatting ]]
+  vim.pack.add { gh 'windwp/nvim-ts-autotag' }
+  require('nvim-ts-autotag').setup()
+  --
   vim.pack.add { gh 'stevearc/conform.nvim' }
   require('conform').setup {
     notify_on_error = false,
@@ -813,6 +829,13 @@ do
     },
     -- You can also specify external formatters in here.
     formatters_by_ft = {
+      javascript = { 'prettierd', 'prettier', stop_after_first = true },
+      typescript = { 'prettierd', 'prettier', stop_after_first = true },
+      javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+      html = { 'prettierd', 'prettier', stop_after_first = true },
+      css = { 'prettierd', 'prettier', stop_after_first = true },
+      json = { 'prettierd', 'prettier', stop_after_first = true },
       -- rust = { 'rustfmt' },
       -- Conform can also run multiple formatters sequentially
       -- python = { "isort", "black" },
@@ -921,7 +944,8 @@ do
   vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } }
 
   -- Ensure basic parsers are installed
-  local parsers = { 'bash', 'java', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' }
+  local parsers = { 'bash', 'java', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc',
+  'javascript', 'typescript', 'tsx', 'css', 'json', 'jsonc', 'yaml', 'graphql' }
   require('nvim-treesitter').install(parsers)
 
   ---@param buf integer
