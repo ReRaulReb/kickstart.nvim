@@ -398,6 +398,8 @@ do
   -- Like many other themes, this one has different styles, and you could load
   -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
   vim.cmd.colorscheme 'terraclay'
+  vim.api.nvim_set_hl(0, 'SnacksDashboardHeader', { fg = '#FF8C52', bold = true })
+  vim.api.nvim_set_hl(0, 'SnacksTermHeaderText', { fg = '#FF8C52', bg = 'NONE', blend = 0 })
 
   -- Highlight todo, notes, etc in comments
   vim.pack.add { gh 'folke/todo-comments.nvim' }
@@ -457,6 +459,75 @@ end
 -- SECTION 11: SNACKS.NVIM
 -- File explorer sidebar, terminal, dashboard, notifications, and other QoL modules
 -- ============================================================
+local art = {
+'                               ▀▀                     ',
+'▒░▀▒░▀░▒ ▒░▀▀██ ▒░▀▀██ ▒░▀█▀██ ██ ▒░▀▀██ ▒░▀▀██ █░    ',
+'   ░█    ░█▄▄   ░█▄▄█▀ ░    ██ ░█ ░█  ░█ ░█  ██ ░▒  ██',
+'   ██    ██▄▄▄▄ ██  ██ ██   ██ ▒░ ██  ██ ██▀▀██ █░▄▄██',
+'   ▀▀           ██  ▀▀ ▀▀                ▀▀  ▀▀       ',
+}
+
+local function attach_header(self)
+  local buf = vim.api.nvim_create_buf(false, true)
+  vim.bo[buf].bufhidden = 'wipe'
+  vim.api.nvim_buf_set_lines(buf, 0, -1, false, art)
+
+  -- Highlight only the non-space glyph runs, leaving blank cells untouched
+  -- so they inherit the window's winblend and stay transparent.
+  local ns = vim.api.nvim_create_namespace('snacks_term_header')
+  for i, line in ipairs(art) do
+    local col = 1
+    while col <= #line do
+      local s, e = line:find('[^ ]+', col)
+      if not s then break end
+      vim.api.nvim_buf_set_extmark(buf, ns, i - 1, s - 1, { end_col = e, hl_group = 'SnacksTermHeaderText' })
+      col = e + 1
+    end
+  end
+
+  local w = 0
+  for _, l in ipairs(art) do w = math.max(w, vim.fn.strdisplaywidth(l)) end
+
+  local function geometry()
+    local wincfg = vim.api.nvim_win_get_config(self.win)
+    return {
+      relative = 'win',
+      win = self.win,
+      row = -#art - 1,
+      col = math.floor((vim.api.nvim_win_get_width(self.win) - w) / 2),
+      width = w,
+      height = #art,
+      style = 'minimal',
+      focusable = false,
+      zindex = (wincfg.zindex or 50) + 1,
+    }
+  end
+
+  local hdr = vim.api.nvim_open_win(buf, false, geometry())
+  vim.wo[hdr].winblend = 100
+
+  local group = vim.api.nvim_create_augroup('SnacksTermHeader' .. self.win, { clear = true })
+
+  vim.api.nvim_create_autocmd({ 'WinResized', 'VimResized' }, {
+    group = group,
+    callback = function()
+      if not vim.api.nvim_win_is_valid(hdr) or not vim.api.nvim_win_is_valid(self.win) then return end
+      vim.api.nvim_win_set_config(hdr, geometry())
+    end,
+  })
+
+  vim.api.nvim_create_autocmd('WinClosed', {
+    group = group,
+    pattern = tostring(self.win),
+    callback = function()
+      pcall(vim.api.nvim_win_close, hdr, true)
+      pcall(vim.api.nvim_del_augroup_by_id, group)
+    end,
+  })
+end
+
+
+
 do
   -- Snacks.nvim needs netrw disabled or the built-in explorer can misbehave
   -- alongside it when opening directories.
@@ -480,6 +551,25 @@ do
 
     dashboard = {
       enabled = true,
+      preset = {
+          header = [[
+                                          
+                                          
+                                          
+                         ░▄               
+                       ▄█░                
+▄▄▄ ▄▄▄     ▄▄▄  ▄▄▄▄ ▐▒▓▌ ▄▄▄ ▄▄▄   ▄▄   
+▐░░░░░░░▄  ▐░▒▒ ▐▒▒▒▓  ▀░  ▐░░░░░░░▄░░░░▄ 
+▐▒▒▒▀░░▒▒▒ ▐▒▒▒ ▐▒▒▒▓  ▄▄▄ ▐▒▒▒▀░░▒▒▀░░▒▒▒
+▐▓▓▒ ▐▒▒▓▓ ▐▓▓▓ ▐▓▓▓█ ▐▒▒▒ ▐▓▓▒ ▐▒▒▓ ▐▒▒▓▓
+▐██▓ ▐▓▓██ ▐███ ▐████ ▐▓▓▒ ▐██▓ ▐▓▓█ ▐▓▓██
+▐███ ▐████ ▐███ ▐████ ▐██▓ ▐███ ▐███ ▐████
+▐▓▓█ ▐█▓▓▓ ▐▓▓▓ ▐▓▓██ ▐███ ▐▓▓█ ▐█▓▓ ▐█▓▓▓
+▐▒▓▓ ▐▓▓▒▒ ▐▒▒▒ ▐▒▓▓▌ ▐███ ▐▒▓▓ ▐▓▓▒ ▐▓▓▒▒
+▐▒▒▒ ▐▒▒▒░  ▐░░▄█▒▒▌  ▐▓▓▓ ▐▒▒▒      ▐▒▒▒░
+▐░░░ ▐░░░░   ▀▀░░▀▀   ▐▒▒▒ ▐░░░      ▐░░░░
+]],
+      },
       sections = {
         { section = 'header' },
         { section = 'keys', gap = 1, padding = 1 },
@@ -489,7 +579,18 @@ do
     },
 
     -- Floating/split toggleable terminal
-    terminal = { enabled = true },
+    terminal = { enabled = true,
+      win = {
+        position = 'float',
+        border = 'rounded',
+        width = 0.85,
+        height = 0.45,
+        row = 0.4,
+        backdrop = 100,
+        title_pos = 'center',
+        on_win = attach_header,
+      }
+    },
 
     -- Smooth animated cursor scrolling
     scroll = { enabled = true },
@@ -520,6 +621,145 @@ do
   -- LSP reference navigation via words module
   -- vim.keymap.set('n', ']]', function() Snacks.words.jump(1) end, { desc = 'Next reference' })
   -- vim.keymap.set('n', '[[', function() Snacks.words.jump(-1) end, { desc = 'Prev reference' })
+end
+
+do
+  ------------------------------------------------------------------
+  -- Colors — single flat color for the flame (matches the logo).
+  -- Confirm the exact match with `:Inspect` over the header text,
+  -- then adjust FLAME_COLOR below if it's off.
+  ------------------------------------------------------------------
+  local FLAME_COLOR = '#FF8C52'
+  local SMOKE_COLOR = '#4A4239' -- terraclay p.umber, faint/dim against bg
+
+  vim.api.nvim_set_hl(0, 'SnacksFlame', { fg = FLAME_COLOR, bold = true })
+  vim.api.nvim_set_hl(0, 'SnacksSmoke', { fg = SMOKE_COLOR })
+
+  ------------------------------------------------------------------
+  -- Templates: exact original spacing. The anchor is the 3rd body
+  -- row, used to locate everything else regardless of centering.
+  ------------------------------------------------------------------
+  local line1_template  = "                         ░▄               "
+  local line2_template  = "                       ▄█░                "
+  local anchor_template = "▄▄▄ ▄▄▄     ▄▄▄  ▄▄▄▄ ▐▒▓▌ ▄▄▄ ▄▄▄   ▄▄   "
+  local blank_template  = string.rep(" ", #line1_template)
+
+  local line1_old, line2_old = "░▄", "▄█░"
+  local line1_start = assert(line1_template:find(line1_old, 1, true))
+  local line2_start = assert(line2_template:find(line2_old, 1, true))
+  local flame_col = line1_start -- roughly the flame's horizontal center
+
+  local function build_line(template, start, old, new)
+    return template:sub(1, start - 1) .. new .. template:sub(start + #old)
+  end
+
+  local function place(col, ch)
+    col = math.max(1, math.min(#blank_template, col))
+    return blank_template:sub(1, col - 1) .. ch .. blank_template:sub(col + 1)
+  end
+
+  local function hl_line(buf, ns, row, group, len)
+    vim.api.nvim_buf_set_extmark(buf, ns, row - 1, 0, { end_row = row - 1, end_col = len, hl_group = group })
+  end
+
+  ------------------------------------------------------------------
+  -- Flame: 20 frames, tiny steps between each, ticking fast (60ms)
+  -- for a smooth flicker instead of a jumpy one.
+  ------------------------------------------------------------------
+  local flame_frames = {
+    { "░▄", "▄█░" }, { "░▄", "▄█▒" }, { "▒▄", "▄█▒" }, { "▒▄", "▄█▓" },
+    { "▓▄", "▄█▓" }, { "▓▄", "▓█▓" }, { "▓▀", "▓█▓" }, { "▓▀", "▓██" },
+    { "█▀", "▓██" }, { "█▀", "▒██" }, { "▓▀", "▒██" }, { "▓▀", "▒█▓" },
+    { "▓▄", "▒█▓" }, { "▓▄", "░█▓" }, { "▒▄", "░█▓" }, { "▒▄", "░█▒" },
+    { "▒▄", "▄▓▒" }, { "░▄", "▄▓▒" }, { "░▄", "▄▓░" }, { "░▀", "▄▒░" },
+  }
+
+  ------------------------------------------------------------------
+  -- Smoke: 3 rows above the flame, drifting up + sideways, fading
+  -- with distance (denser ▒/▓ near the flame, thin marks higher
+  -- up). Advances slower than the flame for a lazy drift feel.
+  ------------------------------------------------------------------
+  local smoke_frames = {
+    { {flame_col + 1, "▒"}, {flame_col,     "·"}, {flame_col - 1, "˙"} },
+    { {flame_col,     "▓"}, {flame_col + 1, "‚"}, {flame_col,     "·"} },
+    { {flame_col - 1, "▒"}, {flame_col - 1, "˙"}, {flame_col + 1, "‚"} },
+    { {flame_col + 1, "▓"}, {flame_col,     "·"}, {flame_col + 2, "˙"} },
+    { {flame_col,     "▒"}, {flame_col + 2, "˙"}, {flame_col - 1, " "} },
+    { {flame_col - 1, "▓"}, {flame_col - 1, "‚"}, {flame_col,     "˙"} },
+  }
+
+  local flame_idx, smoke_idx, tick = 1, 1, 0
+  local timer = nil
+  local ns = vim.api.nvim_create_namespace("snacks_fire")
+
+  local function start_fire(buf)
+    local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+    local anchor_row
+    for i, line in ipairs(lines) do
+      if line:find("▐▒▓▌", 1, true) then anchor_row = i; break end
+    end
+    if not anchor_row or anchor_row < 6 then return end
+
+    local template_pad = anchor_template:match("^(%s*)")
+    local actual_pad = lines[anchor_row]:match("^(%s*)")
+    local extra_pad = actual_pad:sub(#template_pad + 1)
+
+    local smoke_row3 = anchor_row - 3 -- closest to flame
+    local smoke_row2 = anchor_row - 4
+    local smoke_row1 = anchor_row - 5 -- highest/faintest
+    local flame_row1 = anchor_row - 2
+    local flame_row2 = anchor_row - 1
+
+    timer = vim.uv.new_timer()
+    timer:start(0, 60, vim.schedule_wrap(function()
+      if not vim.api.nvim_buf_is_valid(buf) then
+        timer:stop(); timer:close(); return
+      end
+      tick = tick + 1
+      flame_idx = (flame_idx % #flame_frames) + 1
+      if tick % 3 == 0 then smoke_idx = (smoke_idx % #smoke_frames) + 1 end
+
+      local f = flame_frames[flame_idx]
+      local s = smoke_frames[smoke_idx]
+
+      local l_f1 = extra_pad .. build_line(line1_template, line1_start, line1_old, f[1])
+      local l_f2 = extra_pad .. build_line(line2_template, line2_start, line2_old, f[2])
+      local l_s1 = extra_pad .. place(s[1][1], s[1][2])
+      local l_s2 = extra_pad .. place(s[2][1], s[2][2])
+      local l_s3 = extra_pad .. place(s[3][1], s[3][2])
+
+      vim.bo[buf].modifiable = true
+      vim.api.nvim_buf_set_lines(buf, smoke_row1 - 1, smoke_row1, false, { l_s1 })
+      vim.api.nvim_buf_set_lines(buf, smoke_row2 - 1, smoke_row2, false, { l_s2 })
+      vim.api.nvim_buf_set_lines(buf, smoke_row3 - 1, smoke_row3, false, { l_s3 })
+      vim.api.nvim_buf_set_lines(buf, flame_row1 - 1, flame_row1, false, { l_f1 })
+      vim.api.nvim_buf_set_lines(buf, flame_row2 - 1, flame_row2, false, { l_f2 })
+      vim.bo[buf].modifiable = false
+
+      vim.api.nvim_buf_clear_namespace(buf, ns, smoke_row1 - 1, flame_row2)
+      hl_line(buf, ns, smoke_row1, 'SnacksSmoke', #l_s1)
+      hl_line(buf, ns, smoke_row2, 'SnacksSmoke', #l_s2)
+      hl_line(buf, ns, smoke_row3, 'SnacksSmoke', #l_s3)
+      hl_line(buf, ns, flame_row1, 'SnacksFlame', #l_f1)
+      hl_line(buf, ns, flame_row2, 'SnacksFlame', #l_f2)
+    end))
+  end
+
+  local function stop_fire()
+    if timer then timer:stop(); timer:close(); timer = nil end
+  end
+
+  vim.api.nvim_create_autocmd("User", {
+    pattern = "SnacksDashboardOpened",
+    callback = function(data) start_fire(data.buf) end,
+  })
+
+  vim.api.nvim_create_autocmd({ "BufWipeout", "BufDelete" }, {
+    pattern = "*",
+    callback = function(ev)
+      if vim.bo[ev.buf].filetype == "snacks_dashboard" then stop_fire() end
+    end,
+  })
 end
 
 -- ============================================================
