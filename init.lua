@@ -472,8 +472,6 @@ local function attach_header(self)
   vim.bo[buf].bufhidden = 'wipe'
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, art)
 
-  -- Highlight only the non-space glyph runs, leaving blank cells untouched
-  -- so they inherit the window's winblend and stay transparent.
   local ns = vim.api.nvim_create_namespace('snacks_term_header')
   for i, line in ipairs(art) do
     local col = 1
@@ -506,22 +504,47 @@ local function attach_header(self)
   local hdr = vim.api.nvim_open_win(buf, false, geometry())
   vim.wo[hdr].winblend = 100
 
-  local group = vim.api.nvim_create_augroup('SnacksTermHeader' .. self.win, { clear = true })
+  -- Capture the window id as a plain number NOW, rather than reading
+  -- self.win later inside callbacks. self.win can become nil once Snacks
+  -- tears the terminal object down, but a plain number never can.
+  local term_win = self.win
+  local group = vim.api.nvim_create_augroup('SnacksTermHeader' .. term_win, { clear = true })
+
+  local function cleanup()
+    pcall(vim.api.nvim_win_close, hdr, true)
+    pcall(vim.api.nvim_del_augroup_by_id, group)
+  end
 
   vim.api.nvim_create_autocmd({ 'WinResized', 'VimResized' }, {
     group = group,
     callback = function()
-      if not vim.api.nvim_win_is_valid(hdr) or not vim.api.nvim_win_is_valid(self.win) then return end
+      if not vim.api.nvim_win_is_valid(hdr) or not vim.api.nvim_win_is_valid(term_win) then
+        cleanup()
+        return
+      end
       vim.api.nvim_win_set_config(hdr, geometry())
     end,
   })
 
   vim.api.nvim_create_autocmd('WinClosed', {
     group = group,
-    pattern = tostring(self.win),
+    pattern = tostring(term_win),
+    callback = cleanup,
+  })
+
+  -- Belt-and-suspenders: also clean up when the shell process itself exits,
+  -- in case Snacks hides/recycles the window instead of closing it (which
+  -- means WinClosed above never fires).
+  local term_buf = vim.api.nvim_win_get_buf(term_win)
+  vim.api.nvim_create_autocmd('TermClose', {
+    group = group,
+    buffer = term_buf,
     callback = function()
-      pcall(vim.api.nvim_win_close, hdr, true)
-      pcall(vim.api.nvim_del_augroup_by_id, group)
+      vim.schedule(function()
+        if not vim.api.nvim_win_is_valid(term_win) or vim.api.nvim_win_get_buf(term_win) ~= term_buf then
+          cleanup()
+        end
+      end)
     end,
   })
 end
@@ -589,7 +612,7 @@ do
         backdrop = 100,
         title_pos = 'center',
         on_win = attach_header,
-      }
+      },
     },
 
     -- Smooth animated cursor scrolling
