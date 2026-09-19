@@ -553,21 +553,21 @@ do
       enabled = true,
       preset = {
           header = [[
-                                                                                  
-                                                                                  
-                                                                                  
-                         ░▄                                                       
-                       ▄█░                                                        
-▄▄▄ ▄▄▄     ▄▄▄  ▄▄▄▄ ▐▒▓▌ ▄▄▄ ▄▄▄   ▄▄                                           
-▐░░░░░░░▄  ▐░▒▒ ▐▒▒▒▓  ▀░  ▐░░░░░░░▄░░░░▄     ▐▀▄       ▄▀▌   ▄▄▄▄▄▄▄             
-▐▒▒▒▀░░▒▒▒ ▐▒▒▒ ▐▒▒▒▓  ▄▄▄ ▐▒▒▒▀░░▒▒▀░░▒▒▒    ▌▒▒▀▄▄▄▄▄▀▒▒▐▄▀▀▒██▒██▒▀▀▄          
-▐▓▓▒ ▐▒▒▓▓ ▐▓▓▓ ▐▓▓▓█ ▐▒▒▒ ▐▓▓▒ ▐▒▒▓ ▐▒▒▓▓   ▐▒▒▒▒▀▒▀▒▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▀▄        
-▐██▓ ▐▓▓██ ▐███ ▐████ ▐▓▓▒ ▐██▓ ▐▓▓█ ▐▓▓██   ▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▄▒▒▒▒▒▒▒▒▒▒▒▒▀▄      
-▐███ ▐████ ▐███ ▐████ ▐██▓ ▐███ ▐███ ▐████ ▀█▒▒▒█▌▒▒█▒▒▐█▒▒▒▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▌     
-▐▓▓█ ▐█▓▓▓ ▐▓▓▓ ▐▓▓██ ▐███ ▐▓▓█ ▐█▓▓ ▐█▓▓▓ ▀▌▒▒▒▒▒▒▀▒▀▒▒▒▒▒▒▀▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐   ▄▄
-▐▒▓▓ ▐▓▓▒▒ ▐▒▒▒ ▐▒▓▓▌ ▐███ ▐▒▓▓ ▐▓▓▒ ▐▓▓▒▒ ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▌▄█▒█
-▐▒▒▒ ▐▒▒▒░  ▐░░▄█▒▒▌  ▐▓▓▓ ▐▒▒▒      ▐▒▒▒░ ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▒█▀ 
-▐░░░ ▐░░░░   ▀▀░░▀▀   ▐▒▒▒ ▐░░░      ▐░░░░ ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▀   
+                                                                                      
+                                                                                      
+                                                                                      
+                         ░▄                                                           
+                       ▄█░                                                            
+▄▄▄ ▄▄▄     ▄▄▄  ▄▄▄▄ ▐▒▓▌ ▄▄▄ ▄▄▄   ▄▄                                               
+▐░░░░░░░▄  ▐░▒▒ ▐▒▒▒▓  ▀░  ▐░░░░░░░▄░░░░▄     ▐▀▄       ▄▀▌   ▄▄▄▄▄▄▄                 
+▐▒▒▒▀░░▒▒▒ ▐▒▒▒ ▐▒▒▒▓  ▄▄▄ ▐▒▒▒▀░░▒▒▀░░▒▒▒    ▌▒▒▀▄▄▄▄▄▀▒▒▐▄▀▀▒██▒██▒▀▀▄              
+▐▓▓▒ ▐▒▒▓▓ ▐▓▓▓ ▐▓▓▓█ ▐▒▒▒ ▐▓▓▒ ▐▒▒▓ ▐▒▒▓▓   ▐▒▒▒▒▀▒▀▒▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▀▄            
+▐██▓ ▐▓▓██ ▐███ ▐████ ▐▓▓▒ ▐██▓ ▐▓▓█ ▐▓▓██   ▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▄▒▒▒▒▒▒▒▒▒▒▒▒▀▄          
+▐███ ▐████ ▐███ ▐████ ▐██▓ ▐███ ▐███ ▐████ ▀█▒▒▒█▌▒▒█▒▒▐█▒▒▒▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▌         
+▐▓▓█ ▐█▓▓▓ ▐▓▓▓ ▐▓▓██ ▐███ ▐▓▓█ ▐█▓▓ ▐█▓▓▓ ▀▌▒▒▒▒▒▒▀▒▀▒▒▒▒▒▒▀▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐   ▄▄    
+▐▒▓▓ ▐▓▓▒▒ ▐▒▒▒ ▐▒▓▓▌ ▐███ ▐▒▓▓ ▐▓▓▒ ▐▓▓▒▒ ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▌▄███    
+▐▒▒▒ ▐▒▒▒░  ▐░░▄█▒▒▌  ▐▓▓▓ ▐▒▒▒      ▐▒▒▒░ ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒███▀     
+▐░░░ ▐░░░░   ▀▀░░▀▀   ▐▒▒▒ ▐░░░      ▐░░░░ ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▀       
 ]],
       },
       sections = {
@@ -631,9 +631,75 @@ do
   ------------------------------------------------------------------
   local FLAME_COLOR = '#FF8C52'
   local SMOKE_COLOR = '#4A4239' -- terraclay p.umber, faint/dim against bg
+  local TAIL_COLOR = FLAME_COLOR
 
   vim.api.nvim_set_hl(0, 'SnacksFlame', { fg = FLAME_COLOR, bold = true })
   vim.api.nvim_set_hl(0, 'SnacksSmoke', { fg = SMOKE_COLOR })
+  vim.api.nvim_set_hl(0, 'SnacksTail', { fg = TAIL_COLOR })
+
+  ------------------------------------------------------------------
+  --- cat tail stuffs
+  ------------------------------------------------------------------
+
+  local row12_template = "▐▓▓█ ▐█▓▓▓ ▐▓▓▓ ▐▓▓██ ▐███ ▐▓▓█ ▐█▓▓ ▐█▓▓▓ ▀▌▒▒▒▒▒▒▀▒▀▒▒▒▒▒▒▀▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐   ▄▄    "
+  local row13_template = "▐▒▓▓ ▐▓▓▒▒ ▐▒▒▒ ▐▒▓▓▌ ▐███ ▐▒▓▓ ▐▓▓▒ ▐▓▓▒▒ ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▌▄███    "
+  local row14_template = "▐▒▒▒ ▐▒▒▒░  ▐░░▄█▒▒▌  ▐▓▓▓ ▐▒▒▒      ▐▒▒▒░ ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒███▀     "
+  local row15_template = "▐░░░ ▐░░░░   ▀▀░░▀▀   ▐▒▒▒ ▐░░░      ▐░░░░ ▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▀       "
+
+  local tip_glyph, seg_glyph, mid_glyph, base_glyph = "▄▄", "▄███", "███▀", "█▀"
+  local tip_start  = assert(row12_template:find(tip_glyph, 1, true))
+  local seg_start  = assert(row13_template:find(seg_glyph, 1, true))
+  local mid_start  = assert(row14_template:find(mid_glyph, 1, true))
+  local base_start = assert(row15_template:find(base_glyph, 1, true))
+
+  local function build_tail_row(template, zone_start, content)
+    local zone_width = #template - zone_start + 1 -- byte width; all glyphs here are 3-byte UTF-8 so this lines up
+    local content_w = vim.fn.strdisplaywidth(content)
+    local pad = string.rep(" ", math.max(0, zone_width - content_w))
+    return template:sub(1, zone_start - 1) .. content .. pad
+  end
+
+  local TAIL_TICK_DIV = 1
+
+  -- {head, tail_up, tail_lo} per frame. Repeated rest frames give it
+  -- a pause between flicks instead of wagging nonstop.
+  --   ▐▀▄       ▄▀▌   ▄▄▄▄▄▄▄             
+  --   ▌▒▒▀▄▄▄▄▄▀▒▒▐▄▀▀▒██▒██▒▀▀▄          
+  --  ▐▒▒▒▒▀▒▀▒▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▀▄        
+  --  ▌▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▄▒▒▒▒▒▒▒▒▒▒▒▒▀▄      
+  --▀█▒▒▒█▌▒▒█▒▒▐█▒▒▒▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▌     
+  --▀▌▒▒▒▒▒▒▀▒▀▒▒▒▒▒▒▀▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▐   ▄▄
+  --▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▌▄███
+  --▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒███▀ 
+  --▐▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒█▀   
+  local tail_frames = {
+    { tip_glyph,   seg_glyph, mid_glyph, base_glyph },
+    { "▄▄",    "▄███", "███▀", "█▀" },
+    { " ▄",    " ▄███", "███▀", "█▀" },
+    { " ▄",    " ▄▄██", "███▀▀", "█▀" },
+    { "",    " ▄▄██",   "███▀▀", "█▀" },
+    { "",    " ▄▄▄▄▄",  "████▀▀", "█▀▀" },
+    { "",    "   ▄▄▄", "█▄█████", "██▀▀" },
+    { "",    "    ▄▄", "█▄█████", "██▀▀" },
+    { "",    "     ▄", "█▄▄████", "██▀▀▀" },
+    { "",    "      ", "█▄▄▄███▄", "██▀▀▀▀" },
+    { "",    "      ", "█▄▄▄███▄", "██▀▀▀▀" },
+
+    { "",    "      ", "█▄▄▄███▄",  "██▀▀▀▀" },
+    { "",    "      ", "█▄▄▄███▄",  "██▀▀▀▀" },
+
+    { "",    "      ", "█▄▄▄███▄", "██▀▀▀▀" },
+    { "",    "      ", "█▄▄▄███▄", "██▀▀▀▀" },
+    { "",    "     ▄", "█▄▄████", "██▀▀▀" },
+    { "",    "    ▄▄", "█▄█████", "██▀▀" },
+    { "",    "   ▄▄▄", "█▄█████", "██▀▀" },
+    { "",    " ▄▄▄▄▄",  "████▀▀", "█▀▀" },
+    { "",    " ▄▄██",   "███▀▀", "█▀" },
+    { " ▄",    " ▄▄██", "███▀▀", "█▀" },
+    { " ▄",    " ▄███", "███▀", "█▀" },
+    { "▄▄",    "▄███", "███▀", "█▀" },
+    { tip_glyph,   seg_glyph, mid_glyph, base_glyph },
+  }
 
   ------------------------------------------------------------------
   -- Templates: exact original spacing. The anchor is the 3rd body
@@ -688,7 +754,7 @@ do
     { {flame_col - 1, "▓"}, {flame_col - 1, "‚"}, {flame_col,     "˙"} },
   }
 
-  local flame_idx, smoke_idx, tick = 1, 1, 0
+  local flame_idx, smoke_idx, tail_idx, tick = 1, 1, 1, 0
   local timer = nil
   local ns = vim.api.nvim_create_namespace("snacks_fire")
 
@@ -709,6 +775,11 @@ do
     local smoke_row1 = anchor_row - 5 -- highest/faintest
     local flame_row1 = anchor_row - 2
     local flame_row2 = anchor_row - 1
+    local tip_row  = anchor_row + 6
+    local seg_row  = anchor_row + 7
+    local mid_row  = anchor_row + 8
+    local base_row = anchor_row + 9
+    local has_tail = lines[base_row] ~= nil
 
     timer = vim.uv.new_timer()
     timer:start(0, 60, vim.schedule_wrap(function()
@@ -718,9 +789,11 @@ do
       tick = tick + 1
       flame_idx = (flame_idx % #flame_frames) + 1
       if tick % 3 == 0 then smoke_idx = (smoke_idx % #smoke_frames) + 1 end
+      if tick % TAIL_TICK_DIV == 0 then tail_idx = (tail_idx % #tail_frames) + 1 end
 
-      local f = flame_frames[flame_idx]
-      local s = smoke_frames[smoke_idx]
+      local f  = flame_frames[flame_idx]
+      local s  = smoke_frames[smoke_idx]
+      local tf  = tail_frames[tail_idx]
 
       local l_f1 = extra_pad .. build_line(line1_template, line1_start, line1_old, f[1])
       local l_f2 = extra_pad .. build_line(line2_template, line2_start, line2_old, f[2])
@@ -728,12 +801,26 @@ do
       local l_s2 = extra_pad .. place(s[2][1], s[2][2])
       local l_s3 = extra_pad .. place(s[3][1], s[3][2])
 
+      local l_tip, l_seg, l_mid, l_base
+      if has_tail then
+        l_tip  = extra_pad .. build_tail_row(row12_template, tip_start,  tf[1])
+        l_seg  = extra_pad .. build_tail_row(row13_template, seg_start,  tf[2])
+        l_mid  = extra_pad .. build_tail_row(row14_template, mid_start,  tf[3])
+        l_base = extra_pad .. build_tail_row(row15_template, base_start, tf[4])
+      end
+
       vim.bo[buf].modifiable = true
       vim.api.nvim_buf_set_lines(buf, smoke_row1 - 1, smoke_row1, false, { l_s1 })
       vim.api.nvim_buf_set_lines(buf, smoke_row2 - 1, smoke_row2, false, { l_s2 })
       vim.api.nvim_buf_set_lines(buf, smoke_row3 - 1, smoke_row3, false, { l_s3 })
       vim.api.nvim_buf_set_lines(buf, flame_row1 - 1, flame_row1, false, { l_f1 })
       vim.api.nvim_buf_set_lines(buf, flame_row2 - 1, flame_row2, false, { l_f2 })
+      if has_tail then
+        vim.api.nvim_buf_set_lines(buf, tip_row - 1, tip_row, false, { l_tip })
+        vim.api.nvim_buf_set_lines(buf, seg_row - 1, seg_row, false, { l_seg })
+        vim.api.nvim_buf_set_lines(buf, mid_row - 1, mid_row, false, { l_mid })
+        vim.api.nvim_buf_set_lines(buf, base_row - 1, base_row, false, { l_base })
+      end
       vim.bo[buf].modifiable = false
 
       vim.api.nvim_buf_clear_namespace(buf, ns, smoke_row1 - 1, flame_row2)
@@ -742,8 +829,14 @@ do
       hl_line(buf, ns, smoke_row3, 'SnacksSmoke', #l_s3)
       hl_line(buf, ns, flame_row1, 'SnacksFlame', #l_f1)
       hl_line(buf, ns, flame_row2, 'SnacksFlame', #l_f2)
-    end))
-  end
+      if has_tail then
+        vim.api.nvim_buf_clear_namespace(buf, ns, tip_row - 1, base_row)
+        hl_line(buf, ns, tip_row, 'SnacksTail', #l_tip)
+        hl_line(buf, ns, seg_row, 'SnacksTail', #l_seg)
+        hl_line(buf, ns, mid_row, 'SnacksTail', #l_mid)
+        hl_line(buf, ns, base_row, 'SnacksTail', #l_base)
+      end
+    end))  end
 
   local function stop_fire()
     if timer then timer:stop(); timer:close(); timer = nil end
