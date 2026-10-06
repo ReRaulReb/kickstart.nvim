@@ -684,8 +684,6 @@ do
 
   local TAIL_TICK_DIV = 1
 
-  -- {head, tail_up, tail_lo} per frame. Repeated rest frames give it
-  -- a pause between flicks instead of wagging nonstop.
   --   ▐▀▄       ▄▀▌   ▄▄▄▄▄▄▄             
   --   ▌▒▒▀▄▄▄▄▄▀▒▒▐▄▀▀▒██▒██▒▀▀▄          
   --  ▐▒▒▒▒▀▒▀▒▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▀▄        
@@ -781,6 +779,16 @@ do
   local timer = nil
   local ns = vim.api.nvim_create_namespace("snacks_fire")
 
+  local function stop_fire()
+    if timer then
+      if not timer:is_closing() then
+        timer:stop()
+        timer:close()
+      end
+      timer = nil
+    end
+  end
+
   local function start_fire(buf)
     local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
     local anchor_row
@@ -804,10 +812,18 @@ do
     local base_row = anchor_row + 9
     local has_tail = lines[base_row] ~= nil
 
-    timer = vim.uv.new_timer()
-    timer:start(0, 60, vim.schedule_wrap(function()
-      if not vim.api.nvim_buf_is_valid(buf) then
-        timer:stop(); timer:close(); return
+    local my_timer = vim.uv.new_timer()
+    timer = my_timer
+
+    my_timer:start(0, 60, vim.schedule_wrap(function()
+      if my_timer:is_closing() or timer ~= my_timer
+         or not vim.api.nvim_buf_is_valid(buf) then
+        if not my_timer:is_closing() then
+          my_timer:stop()
+          my_timer:close()
+        end
+        if timer == my_timer then timer = nil end
+        return
       end
       tick = tick + 1
       flame_idx = (flame_idx % #flame_frames) + 1
@@ -860,10 +876,6 @@ do
         hl_line(buf, ns, base_row, 'SnacksTail', #l_base)
       end
     end))  end
-
-  local function stop_fire()
-    if timer then timer:stop(); timer:close(); timer = nil end
-  end
 
   vim.api.nvim_create_autocmd("User", {
     pattern = "SnacksDashboardOpened",
